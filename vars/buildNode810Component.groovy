@@ -1,5 +1,5 @@
 /*
- * Toolform-compatible Jenkins 2 Pipeline build step for NodeJS 8.11 apps using the node811 builder
+ * Toolform-compatible Jenkins 2 Pipeline build step for NodeJS 8.10 apps using the node810 builder
  */
 
 def call(Map config) {
@@ -14,8 +14,8 @@ def call(Map config) {
       }
     }
   }
-  
-  container("node811-builder") {
+
+  container("node810-builder") {
 
     stage('Build Details') {
       echo "Project:   ${config.project}"
@@ -36,7 +36,7 @@ def call(Map config) {
 
   if(config.stage == 'dist') {
 
-    container('node811-builder') {
+    container('node810-builder') {
       stage('Build') {
         yarn "build"
       }
@@ -47,7 +47,7 @@ def call(Map config) {
         yarn "install --production --ignore-scripts --prefer-offline"
         sh "mv ${config.baseDir}/node_modules ${config.baseDir}/dist ${config.baseDir}/package.json ${artifactDir}"
 
-        // The static folder and application specific config files 
+        // The static folder and application specific config files
         // should also be staged if they exist.
         if(fileExists("${config.baseDir}/static")) {
           sh "mv ${config.baseDir}/static ${artifactDir}"
