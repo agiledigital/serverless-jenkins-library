@@ -31,20 +31,20 @@ def call(Map config) {
       yarn 'test --ci --testResultsProcessor="jest-junit"'
       junit allowEmptyResults: true, testResults: testOutput
     }
-    
+
     stage('Quality Gate') {
       yarn "quality-check"
     }
-    
+
     stage('Build') {
       yarn "sls package --stage \"${config.stage}\" --package \"${config.baseDir}/dist/sls-package.zip\""
     }
   }
 
-  if(config.stage == 'dist') {
+  if (config.stage == 'staging' || config.stage == 'live') {
 
     container('node810-builder') {
- 
+
       stage('Package') {
         sh "mkdir -p ${artifactDir}"
 
