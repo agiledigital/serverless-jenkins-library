@@ -37,7 +37,7 @@ def call(Map config) {
     }
 
     stage('Build') {
-      yarn "sls package --stage \"${config.stage}\" --package \"${config.baseDir}/dist/sls-package.zip\""
+      yarn "sls package --stage \"${config.stage}\" --package \"${config.baseDir}/dist/\""
     }
   }
 
