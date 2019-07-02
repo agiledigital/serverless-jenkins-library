@@ -1,5 +1,5 @@
 /*
- * Toolform-compatible Jenkins 2 Pipeline build step for NodeJS 8.10 apps using the node810 builder
+ * Toolform-compatible Jenkins 2 Pipeline build step for Serverless Framework apps using the node810 builder
  */
 
 def call(Map config) {
@@ -37,8 +37,12 @@ def call(Map config) {
   if(config.stage == 'dist') {
 
     container('node810-builder') {
+      stage('Quality Gate') {
+        yarn "quality-check"
+      }
+
       stage('Build') {
-        yarn "build"
+        yarn "sls package --stage \"${config.stage}\" --package \"${config.baseDir}/dist/sls-package.zip\""
       }
 
       stage('Package') {
@@ -46,16 +50,6 @@ def call(Map config) {
 
         yarn "install --production --ignore-scripts --prefer-offline"
         sh "mv ${config.baseDir}/node_modules ${config.baseDir}/dist ${config.baseDir}/package.json ${artifactDir}"
-
-        // The static folder and application specific config files
-        // should also be staged if they exist.
-        if(fileExists("${config.baseDir}/static")) {
-          sh "mv ${config.baseDir}/static ${artifactDir}"
-        }
-
-        if(fileExists("${config.baseDir}/next.config.js")) {
-          sh "mv ${config.baseDir}/next.config.js ${artifactDir}"
-        }
       }
     }
 
