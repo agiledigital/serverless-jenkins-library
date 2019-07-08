@@ -1,5 +1,5 @@
 /*
- * Toolform-compatible Jenkins 2 Pipeline build step for Serverless Framework apps using the node810 builder
+ * Toolform-compatible Jenkins 2 Pipeline build step for Serverless Framework apps using the node1016 builder
  */
 
 def call(Map config) {
@@ -15,7 +15,7 @@ def call(Map config) {
     }
   }
 
-  container("node810-builder") {
+  container("node1016-builder") {
 
     stage('Build Details') {
       echo "Project:   ${config.project}"
@@ -43,7 +43,7 @@ def call(Map config) {
 
   if (config.stage == 'staging' || config.stage == 'live') {
 
-    container('node810-builder') {
+    container('node1016-builder') {
 
       stage('Package') {
         sh "mkdir -p ${artifactDir}"

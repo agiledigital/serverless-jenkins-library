@@ -1,8 +1,8 @@
 def call() {
   return [
     containerTemplate(
-      name: 'node810-builder',
-      image: 'agiledigital/node810-builder',
+      name: 'node1016-builder',
+      image: 'agiledigital/node1016-builder',
       alwaysPullImage: true,
       command: 'cat',
       ttyEnabled: true
