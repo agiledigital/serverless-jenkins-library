@@ -25,6 +25,7 @@ def call(Map config) {
 
     stage('Install dependencies') {
       yarn "install"
+      yarn "build"
     }
 
     stage('Test') {
